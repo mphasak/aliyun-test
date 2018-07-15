@@ -7,7 +7,13 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {AppRegistry,
+        DeviceEventEmitter,
+        MPush,
+        Platform,
+        StyleSheet,
+        Text,
+        View} from 'react-native';
 
 var {NativeModules}=require('react-native');
 var mPush = NativeModules.MPush;
@@ -39,6 +45,27 @@ export default class App extends Component<Props> {
               deviceIdBtnTitle: args
           });
       });
+  }
+
+  //绑定事件
+  componentDidMount() {
+    DeviceEventEmitter.addListener('onMessage', this.onMessage);
+    DeviceEventEmitter.addListener('onNotification', this.onNotification);
+  }
+
+  //解绑事件
+  componentWillUnmount() {
+    DeviceEventEmitter.removeListener('onMessage', this.onMessage);
+    DeviceEventEmitter.removeListener('onNotification', this.onNotification);
+  }
+
+  //事件处理逻辑
+  onMessage(e){
+    alert("Message Received. Title:" + e.title + ", Content:" + e.content);
+  }
+
+  onNotification(e){
+    alert("Notification Received.Title:" + e.title + ", Content:" + e.content);
   }
 }
 
