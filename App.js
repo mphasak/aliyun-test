@@ -9,6 +9,9 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 
+var {NativeModules}=require('react-native');
+var mPush = NativeModules.MPush;
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -26,6 +29,16 @@ export default class App extends Component<Props> {
         <Text style={styles.instructions}>{instructions}</Text>
       </View>
     );
+  }
+
+  //调用Native方法
+  getDeviceId() {
+      var that = this;
+      mPush.getDeviceId(function(args) {
+          that.setState({
+              deviceIdBtnTitle: args
+          });
+      });
   }
 }
 

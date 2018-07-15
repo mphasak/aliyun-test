@@ -20,7 +20,7 @@ public class PushModule extends ReactContextBaseJavaModule {
         context = reactContext;
     }
 
-    public static ReactContext getContext() {
+    public static ReactContext getReactContext() {
         return context;
     }
 
